@@ -5,7 +5,7 @@ import { Option } from '../entity';
 const optionRepository = AppDataSource.getRepository(Option);
 
 export const createOptionWithParams = (name, description): Option => {
-  const createdOption = optionRepository.create({
+  const createdOption: Option = optionRepository.create({
     name: name,
     description: description,
   });

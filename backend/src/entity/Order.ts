@@ -3,11 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { OrderItem, Restaurant, User, Payment } from '.';
+import { OrderItem, Customer, Payment } from '.';
 
 @Entity()
 export class Order {
@@ -26,13 +27,8 @@ export class Order {
   @JoinColumn()
   orderItems: OrderItem[];
 
-  @OneToOne(() => Restaurant)
-  @JoinColumn()
-  restaurant: Restaurant;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
+  @ManyToOne(() => Customer, (customer) => customer.orders)
+  customer: Customer;
 
   @OneToOne(() => Payment, {
     cascade: true,

@@ -13,6 +13,7 @@ import {
   modifyProduct,
   removeProduct,
   getProductsWithOptions,
+  getProductByIdExtended,
 } from '../services';
 
 const getAllProducts = async (req: Request, res: Response): Promise<void> => {
@@ -106,7 +107,7 @@ const updateProduct = async (req: Request, res: Response): Promise<void> => {
 
 const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   const productId = req.params.id;
-  const productToDelete = await getProductById(productId);
+  const productToDelete = await getProductByIdExtended(productId);
 
   const deletedProduct = await removeProduct(productToDelete);
 

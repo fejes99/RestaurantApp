@@ -1,5 +1,5 @@
 import { AppDataSource } from '../config/data-source';
-import { Payment } from '../entity/Payment';
+import { Payment } from '../entity';
 
 const paymentRepository = AppDataSource.manager.getRepository(Payment);
 

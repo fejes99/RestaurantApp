@@ -15,8 +15,7 @@ const getOrdersWithRelations = async (): Promise<Order[]> => {
     .createQueryBuilder('order')
     .leftJoinAndSelect('order.orderItems', 'orderItem')
     .leftJoinAndSelect('orderItem.product', 'product')
-    .leftJoinAndSelect('order.restaurant', 'restaurant')
-    .leftJoinAndSelect('order.user', 'user')
+    .leftJoinAndSelect('order.customer', 'customer')
     .getMany();
   return orders;
 };

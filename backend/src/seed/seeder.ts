@@ -4,45 +4,44 @@ import {
   Option,
   OrderItem,
   Product,
-  Restaurant,
-  User,
+  Customer,
+  Employee,
+  Review,
 } from '../entity';
-import {
-  addProductOptions,
-  addProductCategories,
-  createProductWithParams,
-} from '../helpers/ProductHelper';
 import {
   addCategory,
   addOption,
   addOrderItem,
   addProduct,
-  addRestaurant,
-  addUser,
-  getProductById,
+  addCustomer,
   getProductByName,
+  addEmployee,
 } from '../services';
+
 import { categories } from './categories';
 import { options } from './options';
 import { products } from './products';
 import { orderItems } from './orderItems';
-import { restaurant } from './restaurants';
-import { createRestaurantWithParams } from '../helpers/RestaurantHelper';
+import { customers } from './customers';
+import { employees } from './employees';
+
+import {
+  addProductReview,
+  createProductWithParams,
+} from '../helpers/ProductHelper';
 import { createOptionWithParams } from '../helpers/OptionHelper';
 import { createCategoryWithParams } from '../helpers/CategoryHelper';
 import { createOrderItemWithParams } from '../helpers/OrderItemHelper';
-import { createUserWithParams } from '../helpers/UserHelper';
-import { users } from './users';
-import { timeStamp } from 'console';
-
-const orderItemRepository = AppDataSource.getRepository(OrderItem);
+import { createCustomerWithParams } from '../helpers/CustomerHelper';
+import { createEmployeeWithParams } from '../helpers/EmployeeHelper';
+import { createReviewWithParams } from '../helpers/ReviewHelper';
 
 export const seedAll = async () => {
   await seedOptions();
   await seedCategories();
   await seedProducts();
-  await seedRestaurant();
-  await seedUsers();
+  await seedCustomers();
+  await seedEmployees();
   // await seedOrderItems();
 };
 
@@ -75,6 +74,15 @@ const seedProducts = async (): Promise<void> => {
       product.stock
     );
 
+    product.reviews.map((review) => {
+      let newReview: Review = createReviewWithParams(
+        review.rating,
+        review.comment,
+        newProduct
+      );
+      addProductReview(newProduct, newReview);
+    });
+
     await addProduct(newProduct);
   });
 };
@@ -88,38 +96,27 @@ const seedOrderItems = async (): Promise<void> => {
   }
 };
 
-const seedRestaurant = async (): Promise<void> => {
-  const restaurantName = restaurant.name;
-  const restaurantPhone = restaurant.phone;
-  const restaurantEmail = restaurant.email;
-  const restaurantActive = restaurant.active;
-  const restaurantStreet = restaurant.street;
-  const restaurantStreetNumber = restaurant.streetNumber;
-  const restaurantCity = restaurant.city;
-  const restaurantCountry = restaurant.country;
-
-  const restaurantSeed: Restaurant = createRestaurantWithParams(
-    restaurantName,
-    restaurantPhone,
-    restaurantEmail,
-    restaurantActive,
-    restaurantStreet,
-    restaurantStreetNumber,
-    restaurantCity,
-    restaurantCountry
-  );
-
-  await addRestaurant(restaurantSeed);
+const seedCustomers = async (): Promise<void> => {
+  customers.map(async (customer) => {
+    let newCustomer: Customer = createCustomerWithParams(
+      customer.firstName,
+      customer.lastName,
+      customer.email,
+      customer.phone
+    );
+    await addCustomer(newCustomer);
+  });
 };
 
-const seedUsers = async (): Promise<void> => {
-  users.map(async (user) => {
-    let newUser: User = createUserWithParams(
-      user.firstName,
-      user.lastName,
-      user.email,
-      user.phone
+const seedEmployees = async (): Promise<void> => {
+  employees.map(async (employee) => {
+    let newEmployee: Employee = createEmployeeWithParams(
+      employee.firstName,
+      employee.lastName,
+      employee.email,
+      employee.phone,
+      employee.position
     );
-    await addUser(newUser);
+    await addEmployee(newEmployee);
   });
 };

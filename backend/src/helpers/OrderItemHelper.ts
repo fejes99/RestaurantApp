@@ -9,7 +9,7 @@ export const createOrderItemWithParams = (
   quantity: number
 ): OrderItem => {
   if (productQuantityAvailable(quantity, product)) {
-    const createdOrderItem = orderItemRepository.create({
+    const createdOrderItem: OrderItem = orderItemRepository.create({
       product: product,
       quantity: quantity,
       price: calculatePrice(product, quantity),

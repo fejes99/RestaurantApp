@@ -7,8 +7,9 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
-import { Option, Category, OrderItem } from '.';
+import { Option, Category, OrderItem, Review, Employee } from '.';
 
 @Entity()
 export class Product {
@@ -27,6 +28,15 @@ export class Product {
   // @Column({ nullable: true })
   // image: string;
 
+  @Column({ default: 0 })
+  stock: number;
+
+  @Column({ default: 0 })
+  numberOfReviews: number;
+
+  @Column({ type: 'decimal', precision: 2, scale: 1, default: 0 })
+  reviewAverage: number;
+
   @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
   createdAt: Date;
 
@@ -37,9 +47,6 @@ export class Product {
   })
   updatedAt: Date;
 
-  @Column({ default: 0 })
-  stock: number;
-
   @ManyToMany(() => Option, (option) => option.products, {
     nullable: true,
   })
@@ -48,11 +55,19 @@ export class Product {
 
   @ManyToMany(() => Category, (category) => category.products, {
     nullable: true,
-    cascade: true,
   })
   @JoinTable()
   categories: Category[];
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
+
+  @OneToMany(() => Review, (review) => review.product, {
+    cascade: true,
+    nullable: true,
+  })
+  reviews: Review[];
+
+  @ManyToOne(() => Employee, (employee) => employee.products)
+  employee: Employee;
 }

@@ -1,8 +1,9 @@
 import { Request } from 'express';
 import { AppDataSource } from '../config/data-source';
-import { Category, Option, Product } from '../entity';
+import { Category, Option, Product, Review } from '../entity';
 import { getCategoryByName, getOptionByName, modifyProduct } from '../services';
 import { createCategoryWithParams } from './CategoryHelper';
+import { createReviewWithParams } from './ReviewHelper';
 
 const productRepository = AppDataSource.getRepository(Product);
 
@@ -11,14 +12,15 @@ export const createProductWithParams = (
   description: string,
   price: number,
   stock: number
-) => {
-  const createdProduct = productRepository.create({
+): Product => {
+  const createdProduct: Product = productRepository.create({
     name: name,
     description: description,
     price: price,
     stock: stock,
     options: [],
     categories: [],
+    reviews: [],
   });
 
   return createdProduct;
@@ -74,4 +76,39 @@ export const reduceProductInStock = async (
 
   const updatedProduct: Product = await modifyProduct(product);
   return updatedProduct;
+};
+
+export const addProductReview = async (
+  product: Product,
+  review: Review
+): Promise<Product> => {
+  product.reviews.push(review);
+  const productToUpdate: Product = recalculateReviewAverage(product);
+
+  const updatedProduct: Product = await modifyProduct(productToUpdate);
+  return updatedProduct;
+};
+
+export const removeProductReview = async (
+  product: Product,
+  reviewToRemove: Review
+): Promise<Product> => {
+  product.reviews = product.reviews.filter(
+    (review) => review.id !== reviewToRemove.id
+  );
+
+  const productToUpdate: Product = recalculateReviewAverage(product);
+
+  const updatedProduct: Product = await modifyProduct(productToUpdate);
+  return updatedProduct;
+};
+
+const recalculateReviewAverage = (product: Product): Product => {
+  product.numberOfReviews = product.reviews.length;
+  let sum = product.reviews.reduce((acc, review) => review.rating + acc, 0);
+  sum = 0
+    ? (product.reviewAverage = 0)
+    : (product.reviewAverage = sum / product.numberOfReviews);
+
+  return product;
 };

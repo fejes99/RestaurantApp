@@ -16,7 +16,7 @@ Express application with TypeORM.
 - Order item - tuple of product and quantity
 - Order - order with list of order items
 - Restaurant - restaurant where the order was created
-- User - user who ordered
+- Customer - Customer who ordered
 - Payment - payment details
 
 # Routes
@@ -65,15 +65,15 @@ Express application with TypeORM.
         - PUT - update restaurant
         - DELETE - delete restaurant
 
-- User
+- Customer
 
   - '/'
-    - GET - get all users
-    - POST - create user
+    - GET - get all Customers
+    - POST - create Customer
       - ':id'
-        - GET - get user by id
-        - PUT - update user
-        - DELETE - delete user
+        - GET - get Customer by id
+        - PUT - update Customer
+        - DELETE - delete Customer
 
 - Order
 

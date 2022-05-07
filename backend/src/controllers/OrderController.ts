@@ -9,8 +9,7 @@ import {
   getOrders,
   getOrdersWithRelations,
   getProductByName,
-  getRestaurantByName,
-  getUserByName,
+  getCustomerByName,
   removeOrder,
 } from '../services';
 
@@ -46,11 +45,9 @@ const getOrder = async (req: Request, res: Response): Promise<void> => {
 };
 const createOrder = async (req: Request, res: Response): Promise<void> => {
   const orderItems = req.body.orderItems;
-  const orderRestaurant = req.body.restaurant;
-  const orderUser = req.body.user;
+  const orderCustomer = req.body.customer;
 
-  const restaurant = await getRestaurantByName(orderRestaurant);
-  const user = await getUserByName(orderUser);
+  const customer = await getCustomerByName(orderCustomer);
 
   let orderItemsForOrder = [];
 
@@ -72,8 +69,7 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
 
   const orderToCreate: Order = createOrderWithItems(
     orderItemsForOrder,
-    restaurant,
-    user,
+    customer,
     payment
   );
 

@@ -1,5 +1,5 @@
 import { AppDataSource } from '../config/data-source';
-import { Option, Product } from '../entity';
+import { Product } from '../entity';
 
 const productRepository = AppDataSource.manager.getRepository(Product);
 
@@ -13,13 +13,24 @@ const getProductsWithOptions = async (): Promise<Product[]> => {
     relations: {
       options: true,
       categories: true,
+      reviews: true,
     },
   });
   return products;
 };
 
 const getProductById = async (productId): Promise<Product> => {
-  const product = await productRepository.findOneBy({ id: productId });
+  const product: Product = await productRepository.findOneBy({ id: productId });
+  return product;
+};
+
+const getProductByIdExtended = async (productId): Promise<Product> => {
+  const product: Product = await productRepository.findOne({
+    where: { id: productId },
+    relations: {
+      reviews: true,
+    },
+  });
   return product;
 };
 
@@ -28,6 +39,15 @@ const getProductByName = async (productName: string): Promise<Product> => {
     name: productName,
   });
 
+  return product;
+};
+
+const getProductByReview = async (review): Promise<Product> => {
+  const product: Product = await productRepository
+    .createQueryBuilder('product')
+    .leftJoinAndSelect('product.reviews', 'reviews')
+    .where('reviews.productId = :id', { id: review.product.id })
+    .getOne();
   return product;
 };
 
@@ -51,8 +71,9 @@ export {
   getProductsWithOptions,
   getProductById,
   getProductByName,
+  getProductByReview,
   addProduct,
   modifyProduct,
   removeProduct,
-  // getProductByNameReturnId,
+  getProductByIdExtended,
 };

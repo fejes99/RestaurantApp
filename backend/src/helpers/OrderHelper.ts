@@ -1,19 +1,17 @@
 import { AppDataSource } from '../config/data-source';
-import { Order, Payment, Restaurant, User } from '../entity';
+import { Order, Payment, Customer } from '../entity';
 import { OrderItem } from '../entity/OrderItem';
 
 const orderRepository = AppDataSource.getRepository(Order);
 
 export const createOrderWithItems = (
   orderItems: OrderItem[],
-  restaurant: Restaurant,
-  user: User,
+  Customer: Customer,
   payment: Payment
 ): Order => {
   const createdOrder: Order = orderRepository.create({
     orderItems: orderItems,
-    restaurant: restaurant,
-    user: user,
+    customer: Customer,
     payment: payment,
     price: calculatePrice(orderItems),
   });

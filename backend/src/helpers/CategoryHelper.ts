@@ -14,7 +14,7 @@ export const createCategoryWithParams = (
   name: string,
   description?: string
 ): Category => {
-  const createdCategory = categoryRepository.create({
+  const createdCategory: Category = categoryRepository.create({
     name: name,
     description: description,
   });

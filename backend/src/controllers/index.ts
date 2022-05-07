@@ -22,19 +22,12 @@ import {
   deleteCategory,
 } from './CategoryController';
 import {
-  getAllRestaurants,
-  getRestaurant,
-  createRestaurant,
-  updateRestaurant,
-  deleteRestaurant,
-} from './RestaurantController';
-import {
-  getAllUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
-} from './UserController';
+  getAllCustomers,
+  getCustomer,
+  createCustomer,
+  updateCustomer,
+  deleteCustomer,
+} from './CustomerController';
 import {
   getAllOrders,
   getAllOrdersExtended,
@@ -43,6 +36,21 @@ import {
   deleteOrder,
 } from './OrderController';
 import { getAllPayments, getPayment } from './PaymentController';
+import {
+  getAllEmployees,
+  getEmployee,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+} from './EmployeeController';
+import {
+  getAllReviews,
+  getAllReviewsForProduct,
+  getReview,
+  createReview,
+  updateReview,
+  deleteReview,
+} from './ReviewController';
 
 export {
   getAllProducts,
@@ -62,16 +70,11 @@ export {
   createCategory,
   updateCategory,
   deleteCategory,
-  getAllRestaurants,
-  getRestaurant,
-  createRestaurant,
-  updateRestaurant,
-  deleteRestaurant,
-  getAllUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
+  getAllCustomers,
+  getCustomer,
+  createCustomer,
+  updateCustomer,
+  deleteCustomer,
   getAllOrders,
   getAllOrdersExtended,
   getOrder,
@@ -79,4 +82,15 @@ export {
   deleteOrder,
   getAllPayments,
   getPayment,
+  getAllEmployees,
+  getEmployee,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+  getAllReviews,
+  getAllReviewsForProduct,
+  getReview,
+  createReview,
+  updateReview,
+  deleteReview,
 };

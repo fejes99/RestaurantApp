@@ -4,10 +4,11 @@ import {
   productRouter,
   optionRouter,
   categoryRouter,
-  restaurantRouter,
-  userRouter,
+  customerRouter,
   orderRouter,
   paymentRouter,
+  employeeRouter,
+  reviewRouter,
 } from './routes';
 import { AppDataSource } from './config/data-source';
 import { seedAll as seed } from './seed/seeder';
@@ -22,10 +23,11 @@ AppDataSource.initialize()
     app.use('/products', productRouter);
     app.use('/options', optionRouter);
     app.use('/categories', categoryRouter);
-    app.use('/restaurants', restaurantRouter);
-    app.use('/users', userRouter);
+    app.use('/customers', customerRouter);
     app.use('/orders', orderRouter);
     app.use('/payments', paymentRouter);
+    app.use('/employees', employeeRouter);
+    app.use('/reviews', reviewRouter);
 
     const port = process.env.PORT;
 
