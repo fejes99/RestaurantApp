@@ -32,7 +32,7 @@ export class Review {
   updatedAt: Date;
 
   @ManyToOne(() => Product, (product) => product.orderItems, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     orphanedRowAction: 'delete',
   })
   product: Product;

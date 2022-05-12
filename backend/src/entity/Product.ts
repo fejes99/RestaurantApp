@@ -64,6 +64,7 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product, {
     nullable: true,
+    cascade: true,
   })
   reviews: Review[];
 
