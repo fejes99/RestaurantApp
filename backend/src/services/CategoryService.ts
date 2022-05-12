@@ -8,15 +8,6 @@ const getCategories = async (): Promise<Category[]> => {
   return categories;
 };
 
-const getCategoriesWithProducts = async (): Promise<Category[]> => {
-  const categories = categoryRepository.find({
-    relations: {
-      products: true,
-    },
-  });
-  return categories;
-};
-
 const getCategoryById = async (categoryId): Promise<Category> => {
   const category = categoryRepository.findOneBy({ id: categoryId });
   return category;
@@ -44,7 +35,6 @@ const removeCategory = async (category: Category): Promise<Category> => {
 
 export {
   getCategories,
-  getCategoriesWithProducts,
   getCategoryById,
   getCategoryByName,
   addCategory,

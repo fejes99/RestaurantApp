@@ -63,7 +63,6 @@ export class Product {
   orderItems: OrderItem[];
 
   @OneToMany(() => Review, (review) => review.product, {
-    cascade: true,
     nullable: true,
   })
   reviews: Review[];

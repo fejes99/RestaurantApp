@@ -7,7 +7,6 @@ import {
 import {
   addCategory,
   getCategories,
-  getCategoriesWithProducts,
   getCategoryById,
   modifyCategory,
   removeCategory,
@@ -15,18 +14,6 @@ import {
 
 const getAllCategories = async (req: Request, res: Response): Promise<void> => {
   const categories: Category[] = await getCategories();
-
-  if (!categories) {
-    res.status(404);
-  }
-  res.status(200).json(categories);
-};
-
-const getAllCategoriesExtended = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const categories: Category[] = await getCategoriesWithProducts();
 
   if (!categories) {
     res.status(404);
@@ -100,7 +87,6 @@ const deleteCategory = async (req: Request, res: Response): Promise<void> => {
 
 export {
   getAllCategories,
-  getAllCategoriesExtended,
   getCategory,
   createCategory,
   updateCategory,

@@ -19,7 +19,6 @@ import {
 } from './OptionService';
 import {
   getCategories,
-  getCategoriesWithProducts,
   getCategoryById,
   getCategoryByName,
   addCategory,
@@ -84,7 +83,6 @@ export {
   modifyOption,
   removeOption,
   getCategories,
-  getCategoriesWithProducts,
   getCategoryById,
   getCategoryByName,
   addCategory,

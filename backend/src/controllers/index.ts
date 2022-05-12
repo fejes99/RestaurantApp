@@ -15,7 +15,6 @@ import {
 } from './OptionController';
 import {
   getAllCategories,
-  getAllCategoriesExtended,
   getCategory,
   createCategory,
   updateCategory,
@@ -65,7 +64,6 @@ export {
   updateOption,
   deleteOption,
   getAllCategories,
-  getAllCategoriesExtended,
   getCategory,
   createCategory,
   updateCategory,

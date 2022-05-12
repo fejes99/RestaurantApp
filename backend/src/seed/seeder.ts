@@ -74,15 +74,6 @@ const seedProducts = async (): Promise<void> => {
       product.stock
     );
 
-    product.reviews.map((review) => {
-      let newReview: Review = createReviewWithParams(
-        review.rating,
-        review.comment,
-        newProduct
-      );
-      addProductReview(newProduct, newReview);
-    });
-
     await addProduct(newProduct);
   });
 };
