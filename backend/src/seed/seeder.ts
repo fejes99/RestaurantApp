@@ -1,45 +1,36 @@
-import { AppDataSource } from '../config/data-source';
+import { Category } from '../apis/category/category.model';
+import { categories } from '../apis/category/category.seed';
+import { addCategory } from '../apis/category/category.service';
+import { createCustomerWithParams } from '../apis/customer/customer.helper';
+import { Customer } from '../apis/customer/customer.model';
+import { customers } from '../apis/customer/customer.seed';
+import { addCustomer } from '../apis/customer/customer.service';
+import { createEmployeeWithParams } from '../apis/employee/employee.helper';
+import { Employee } from '../apis/employee/employee.model';
+import { employees } from '../apis/employee/employee.seed';
+import { addEmployee } from '../apis/employee/employee.service';
+import { createOptionWithParams } from '../apis/option/option.helper';
+import { Option } from '../apis/option/option.model';
+import { options } from '../apis/option/option.seed';
+import { addOption } from '../apis/option/option.service';
+import { createOrderItemWithParams } from '../apis/order-item/order-item.helper';
+import { orderItems } from '../apis/order-item/order-item.seed';
+import { addOrderItem } from '../apis/order-item/order-item.service';
 import {
-  Category,
-  Option,
-  OrderItem,
-  Product,
-  Customer,
-  Employee,
-  Review,
-} from '../entity';
-import {
-  addCategory,
-  addOption,
-  addOrderItem,
-  addProduct,
-  addCustomer,
-  getProductByName,
-  addEmployee,
-} from '../services';
-
-import { categories } from './categories';
-import { options } from './options';
-import { products } from './products';
-import { orderItems } from './orderItems';
-import { customers } from './customers';
-import { employees } from './employees';
-
-import {
-  addProductReview,
   createProductWithParams,
-} from '../helpers/ProductHelper';
-import { createOptionWithParams } from '../helpers/OptionHelper';
-import { createCategoryWithParams } from '../helpers/CategoryHelper';
-import { createOrderItemWithParams } from '../helpers/OrderItemHelper';
-import { createCustomerWithParams } from '../helpers/CustomerHelper';
-import { createEmployeeWithParams } from '../helpers/EmployeeHelper';
-import { createReviewWithParams } from '../helpers/ReviewHelper';
+  addProductOptionsByName,
+  addProductCategoriesByName,
+  addProductReview,
+} from '../apis/product/product.helper';
+import { Product } from '../apis/product/product.model';
+import { products } from '../apis/product/product.seed';
+import { addProduct, getProductByName } from '../apis/product/product.service';
+import { createReviewWithParams } from '../apis/review/review.helper';
 
 export const seedAll = async () => {
   await seedOptions();
   await seedCategories();
-  await seedProducts();
+  // await seedProducts();
   await seedCustomers();
   await seedEmployees();
   // await seedOrderItems();
@@ -57,11 +48,7 @@ const seedOptions = async (): Promise<void> => {
 
 const seedCategories = async (): Promise<void> => {
   categories.map(async (category: Category) => {
-    let newCategory: Category = createCategoryWithParams(
-      category.name,
-      category.description
-    );
-    await addCategory(newCategory);
+    await addCategory(category.name, category.description);
   });
 };
 
@@ -73,6 +60,26 @@ const seedProducts = async (): Promise<void> => {
       product.price,
       product.stock
     );
+
+    if (product.options) {
+      newProduct = await addProductOptionsByName(newProduct, product.options);
+    }
+
+    if (product.categories) {
+      newProduct = await addProductCategoriesByName(
+        newProduct,
+        product.categories
+      );
+    }
+
+    if (product.reviews) {
+      product.reviews.map(async (review) => {
+        newProduct = await addProductReview(
+          newProduct,
+          createReviewWithParams(review.rating, review.comment, newProduct)
+        );
+      });
+    }
 
     await addProduct(newProduct);
   });
